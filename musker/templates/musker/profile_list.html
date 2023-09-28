@@ -1,0 +1,30 @@
+{% extends 'musker/base.html' %}
+{% load static %}
+
+{% block content %}
+{% if profiles %}
+<center><h1>Profile List</h1></center>
+{% for profile in profiles %}
+<br>
+<br>
+<div class="container justify-content-center bg-info p-5">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{% static 'images/profile_image.png' %}" class="img-fluid rounded-start" alt="Profile Image">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+            <h5 class="card-title">{{profile.user.username|upper}}</h5>
+            <p class="card-text"> @<a href="{% url 'profile' user.id %}">{{profile.user.username|capfirst}}</a></p>
+            <p class="card-text"><small class="text-muted">{{profile.date_modified}}</small></p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+  <hr>
+  {% endfor %}
+  {% endif %}
+
+{% endblock %}
