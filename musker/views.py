@@ -22,6 +22,20 @@ def profile_list(request):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id=pk)
+
+        #POST form logic for follow/unfollow
+        if request.method == 'POST':
+            #get the current user
+            current_user_profile = request.user.profile
+            #get form data
+            action = request.POST['follow']
+            #decide to follow or unfollow
+            if action == 'unfollow':
+                current_user_profile.follows.remove(profile)
+            elif action == "follow":
+                current_user_profile.follows.add(profile)
+            current_user_profile.save()
+
         return render(request, 'musker/profile.html', {
             'profile': profile,
         })
