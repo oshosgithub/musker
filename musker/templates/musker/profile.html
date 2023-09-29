@@ -12,12 +12,19 @@
                     {{profile.user.username|upper}}' Profile
                 </div>
                 <div class="card-body">
-                  <blockquote class="blockquote mb-0">
-                    <p>A well-known quote, contained in a blockquote element.</p>
-                    <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                  </blockquote>
+                  {% if meeps %}
+                  {% for meep in meeps %}
+                  <div class="alert alert-light" role="alert">
+                    <h4 class="alert-heading">{{meep.user}}</h4>
+                    <p>{{meep.created_at}}</p>
+                    <hr>
+                    <p class="mb-0">{{meep.body}}</p>
+                  </div>
+                  {% endfor %}
+                  {% endif %}
                 </div>
               </div>
+
 
         </div>
         <div class="col-4">
@@ -31,6 +38,8 @@
                 <p>@ <a href="{% url 'profile' following.user.id %}">{{following}}</a> </p>
              {% endfor %}
 
+
+             <!--Follow and Unfollow Button-->
              <form action="" method='POST'>
                 {% csrf_token %}
                 {% if profile in user.profile.follows.all %}
