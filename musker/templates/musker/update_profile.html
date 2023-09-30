@@ -1,6 +1,5 @@
 {% extends 'musker/base.html' %}
 {% block style %}
-
 <style>
     /* Custom form styles */
     .custom-form {
@@ -48,7 +47,7 @@
                 <form method='POST' class="custom-form">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    <button type="submit" class="btn btn-primary btn-block">Update</button>
                 </form>
             </div>
         </div>

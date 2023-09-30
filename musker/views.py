@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect 
 from django.contrib import messages 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Profile, Meep
 from .forms import MeepForm, RegisterForm
@@ -35,11 +38,29 @@ def register(request):
         form = RegisterForm(request.POST or None)
         if form.is_valid:
             form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
             messages.success(request, f"Registration created!")
             return redirect ('home')
     return render(request, 'musker/register.html',{
         'form': form, 
     })
+
+def update_profile(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        form = RegisterForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            form.save()
+            login(request, current_user)
+            messages.success(request,'Your profile updated.')
+            return redirect('home')
+        return render(request, 'musker/update_profile.html',{'form':form})
+    else:
+        messages.success(request,'You must log in to update')
+        return redirect('home')
+
 
 def login_user(request):
     if request.method == 'POST':

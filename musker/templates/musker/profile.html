@@ -52,7 +52,16 @@
                 </button>
                 {% endif %}
              </form>
+             <br>
+             <br>
+             <hr>
 
+             <!--Update Profile Button-->
+             {% if request.user.id == profile.user.id %}
+              <a href='{% url "update_profile" %}'><button class="btn btn-success" type='submit'>
+                Update Profile
+              </button></a>
+              {% endif %}
         </div>
     </div>
 </div>
